@@ -1342,8 +1342,11 @@ dependencies = [
 name = "desert-ui"
 version = "0.1.0"
 dependencies = [
+ "cocoa 0.26.0",
  "gpui",
  "gpui-component",
+ "objc",
+ "raw-window-handle",
 ]
 
 [[package]]

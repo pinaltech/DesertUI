@@ -48,7 +48,16 @@ impl Render for Harness {
             .relative()
             .flex()
             .flex_col()
-            .child(ui::topbar("topbar", c, true))
+            .child(
+                ui::topbar("topbar", c, true).child(
+                    ui::toolbar_button(ui::button("open-settings", c, false, false))
+                        .child("Settings")
+                        .on_click(cx.listener(|this, _, _, cx| {
+                            this.settings = true;
+                            cx.notify();
+                        })),
+                ),
+            )
             .child(
                 div()
                     .flex()
@@ -148,11 +157,10 @@ fn real_layout_and_clicks_keep_list_detail_and_settings_reachable(cx: &mut TestA
         cx.simulate_click(back.center(), Modifiers::none());
         frame(cx);
         inside(bounds(cx, "list"), width, height);
-        view.update_in(cx, |v, _, cx| {
-            v.settings = true;
-            cx.notify();
-        });
+        let settings = bounds(cx, "open-settings");
+        cx.simulate_click(settings.center(), Modifiers::none());
         frame(cx);
+        view.read_with(cx, |v, _| assert!(v.settings));
         for name in ["modal-panel", "settings-nav", "settings-page"] {
             inside(bounds(cx, name), width, height);
         }

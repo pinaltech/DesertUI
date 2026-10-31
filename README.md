@@ -1,7 +1,7 @@
 # DesertUI
 
 A composable native application toolkit on GPUI 0.2.2 and GPUI Component 0.5.1,
-extracted from Picacho and Ironwood. Published crate name: `desert-ui`; Rust import:
+extracted from Picacho and Ironwood. Crate name: `desert-ui`; Rust import:
 `desert_ui`. Picacho is the reference for shared design decisions.
 
 ## Use from an application
@@ -44,6 +44,11 @@ logos/icons), and wrap the main view in `gpui_component::Root` as usual.
 - `settings_nav`, `settings_shell`, `settings_page`: responsive scrolling settings.
 - `popup_surface`: shared dropdown presentation.
 - `system_dark`, `shortcut_text`: platform appearance and shortcut presentation.
+- `native_titlebar::install`, `native_titlebar::sync_layout`: macOS input forwarding
+  for transparent 38px titlebars; no-ops on other platforms. Install once when
+  creating each native window and sync during rendering to follow resizing.
+  Guard the render-time call with `#[cfg(not(test))]` in headless GPUI tests;
+  GPUI 0.2.2's test windows intentionally panic when asked for native handles.
 
 Components return ordinary GPUI elements, with no global app state. Hosts retain
 listeners, keyboard activation, tooltips, focus groups, dismissal policy, menu
@@ -72,3 +77,8 @@ other platforms require their own native acceptance run.
 
 [UI audit](docs/UI-AUDIT.md) records both apps before migration.
 [Verification](VERIFICATION.md) records actual checks and remaining limits.
+
+
+Run `./scripts/check.sh` to repeat the automated checks across all three sibling
+repositories. `DESERTUI_EMAIL_DIR` and `DESERTUI_VAULT_DIR` override their locations.
+See [migration notes](docs/MIGRATION.md) for application integration boundaries.

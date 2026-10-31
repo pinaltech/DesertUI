@@ -9,7 +9,7 @@ for read-only visual reference; automated tests use disposable profiles.
 | Area | Picacho reference | Ironwood before migration |
 | --- | --- | --- |
 | Chrome | 38px topbar, 28px toolbar controls, macOS traffic-light inset 80px | Same geometry; separate native titlebar input forwarding |
-| Three panes | Sidebar 228px, list 380px, remaining reader | Sidebar 228px, list 340px, remaining detail |
+| Three panes | Sidebar 228px, list 380px, remaining reader | Sidebar 228px, list 330px, remaining detail |
 | Intermediate window | Below 1180px: 60px rail and 320px list | Below 1000px: 60px rail |
 | Single content pane | Below 900px: list or reader with Back navigation | Below 780px: list or detail with Back navigation |
 | Mobile | Below 480px reader hides sidebar; list retains rail | Below 480px bottom navigation replaces sidebar |

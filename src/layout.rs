@@ -26,8 +26,8 @@ impl LayoutPolicy {
     pub const IRONWOOD: Self = Self {
         single_below: 780.,
         rail_below: 1000.,
-        list_width: 340.,
-        compact_list_width: 340.,
+        list_width: 330.,
+        compact_list_width: 330.,
         mobile_navigation: true,
     };
     pub fn resolve(self, width: f32, selected: bool, collapsed: bool) -> PaneLayout {

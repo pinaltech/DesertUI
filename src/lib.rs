@@ -5,6 +5,7 @@
 pub mod components;
 pub mod layout;
 pub mod metrics;
+pub mod native_titlebar;
 pub mod platform;
 pub mod theme;
 pub use components::*;

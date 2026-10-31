@@ -9,6 +9,7 @@ struct Gallery {
 }
 impl Render for Gallery {
     fn render(&mut self, w: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+        ui::native_titlebar::sync_layout(w);
         let c = Colors::new(ui::system_dark(w), Accent::Green);
         let layout =
             LayoutPolicy::default().resolve(w.viewport_size().width.into(), self.selected, false);
@@ -117,6 +118,7 @@ fn main() {
                 ..Default::default()
             },
             |w, cx| {
+                ui::native_titlebar::install(w);
                 let view = cx.new(|_| Gallery {
                     selected: false,
                     settings: false,

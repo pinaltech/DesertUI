@@ -47,6 +47,9 @@ pub fn toolbar_button(button: Stateful<Div>) -> Stateful<Div> {
         .h(px(metrics::TOOLBAR_BUTTON))
         .w(px(metrics::TOOLBAR_BUTTON))
         .rounded(px(7.))
+        // Mark control input handled so AppKit does not begin a window drag
+        // before GPUI can receive mouse-up and dispatch the click.
+        .on_mouse_down(MouseButton::Left, |_, _, cx| cx.stop_propagation())
 }
 pub fn topbar(id: &'static str, c: Colors, border: bool) -> Stateful<Div> {
     div()
