@@ -42,7 +42,19 @@ logos/icons), and wrap the main view in `gpui_component::Root` as usual.
 - `topbar`, `sidebar`: native application chrome with shared metrics.
 - `modal_panel`, `modal_backdrop`: bounded, styled dialog surfaces.
 - `settings_nav`, `settings_shell`, `settings_page`: responsive scrolling settings.
-- `popup_surface`: shared dropdown presentation.
+- `popup_surface`, `pointer_menu`, `menu_item`, `menu_separator`: shared menus,
+  with pointer anchoring constrained to the window.
+- `toolbar_separator`: spacing and dividers between toolbar command groups.
+- `image_viewport::ImageViewport`: fitted image geometry, continuous anchored zoom,
+  and bounded panning, independent of app state and rendering.
+- `native_transfer`: macOS file-URL drag sessions and per-window trackpad
+  magnification, with portable fallbacks. Install magnification once per native
+  window, consume deltas on the UI thread, and start file drags during pointer
+  dragging. Skip native-handle calls in GPUI headless tests.
+- `library`: shared library-app assets, tooltip-equipped toolbar controls,
+  navigation rows, source cards, onboarding, badges, empty states, and headings.
+  GPUI Notes and GPUI Photos are the first consumers. `LibraryAssets` composes
+  the `library/` SVG namespace with GPUI Component's built-in assets.
 - `system_dark`, `shortcut_text`: platform appearance and shortcut presentation.
 - `native_titlebar::install`, `native_titlebar::sync_layout`: macOS input forwarding
   for transparent 38px titlebars; no-ops on other platforms. Install once when
@@ -81,4 +93,6 @@ other platforms require their own native acceptance run.
 
 Run `./scripts/check.sh` to repeat the automated checks across all three sibling
 repositories. `DESERTUI_EMAIL_DIR` and `DESERTUI_VAULT_DIR` override their locations.
+When sibling GPUI Notes and GPUI Photos checkouts exist, the script checks them
+too; `DESERTUI_NOTES_DIR` and `DESERTUI_PHOTOS_DIR` override those locations.
 See [migration notes](docs/MIGRATION.md) for application integration boundaries.

@@ -69,6 +69,27 @@ pub fn topbar(id: &'static str, c: Colors, border: bool) -> Stateful<Div> {
             }
         })
 }
+/// The app's full-color logo and name, placed at the leading edge of the
+/// topbar after the sidebar toggle. `logo` is an asset path drawn with `img`
+/// on the shared 640×540 brand canvas (Picacho, Ironwood, Tonto).
+pub fn app_brand(logo: &'static str, name: &'static str, show_name: bool) -> Div {
+    div()
+        .debug_selector(|| "app-brand".into())
+        .flex()
+        .items_center()
+        .flex_shrink_0()
+        .ml(px(6.))
+        .child(img(logo).w(px(20.)).h(px(17.)))
+        .when(show_name, |d| {
+            d.child(
+                div()
+                    .ml_1()
+                    .text_size(px(13.))
+                    .font_weight(FontWeight::SEMIBOLD)
+                    .child(name),
+            )
+        })
+}
 pub fn sidebar(c: Colors) -> Div {
     div()
         .h_full()
@@ -195,4 +216,69 @@ pub fn icon(path: impl Into<SharedString>, size: f32, color: u32) -> Div {
         .size(px(size))
         .flex_shrink_0()
         .child(svg().path(path.into()).size_full().text_color(rgb(color)))
+}
+
+/// Separate related toolbar controls without consuming excessive horizontal space.
+pub fn toolbar_separator(c: Colors) -> Div {
+    div()
+        .w(px(1.))
+        .h(px(18.))
+        .mx_2()
+        .flex_shrink_0()
+        .bg(rgb(c.border))
+}
+
+pub fn menu_separator(c: Colors) -> Div {
+    div().h(px(1.)).my_1().mx_2().bg(rgb(c.border))
+}
+
+/// A menu command surface. Hosts attach callbacks and own menu dismissal.
+pub fn menu_item(
+    id: impl Into<SharedString>,
+    label: impl Into<SharedString>,
+    shortcut: &str,
+    c: Colors,
+) -> Stateful<Div> {
+    button(id, c, false, true)
+        .w_full()
+        .h(px(32.))
+        .justify_start()
+        .bg(transparent_black())
+        .child(div().flex_1().child(label.into()))
+        .child(
+            div()
+                .text_size(px(11.))
+                .text_color(rgb(c.muted))
+                .child(shortcut.to_owned()),
+        )
+}
+
+/// Bound a pointer-anchored menu to the current window, including small windows.
+pub fn pointer_menu(w: &Window, at: Point<Pixels>, c: Colors) -> Stateful<Div> {
+    let viewport = w.viewport_size();
+    let top =
+        at.y.min((viewport.height - px(234.)).max(px(8.)))
+            .max(px(8.));
+    div()
+        .id("object-menu")
+        .debug_selector(|| "object-menu".into())
+        .absolute()
+        .left(
+            at.x.min((viewport.width - px(244.)).max(px(8.)))
+                .max(px(8.)),
+        )
+        .top(top)
+        .w(px(236.))
+        .max_w((viewport.width - px(16.)).max(px(0.)))
+        .max_h((viewport.height - top - px(8.)).max(px(0.)))
+        .overflow_y_scroll()
+        .p_1()
+        .rounded(px(10.))
+        .border_1()
+        .border_color(rgb(c.border))
+        .bg(rgb(c.raised))
+        .shadow_lg()
+        .text_size(px(13.))
+        .on_mouse_down(MouseButton::Left, |_, _, cx| cx.stop_propagation())
+        .on_mouse_down(MouseButton::Right, |_, _, cx| cx.stop_propagation())
 }

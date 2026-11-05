@@ -1,5 +1,37 @@
 # Verification
 
+## Library interaction components — October 31, 2026
+
+Added shared menu surfaces and toolbar separators, application-independent
+image fit/zoom/pan geometry, and macOS file-drag/magnification helpers. Existing
+component signatures and behavior remain unchanged.
+
+Formatting, locked offline tests (**4 pass**), and strict all-target Clippy pass.
+Notes has **18 passing tests** and Photos **13**; both native app bundles build.
+Picacho and the Ironwood workspace pass locked offline compilation with the
+shared additions. Their full suites were not rerun for this update.
+
+Native app review used isolated fictional libraries. Native photo drag-session
+creation and an in-app album drop were verified. A complete Finder copy,
+physical trackpad pinch, and Linux/Windows native acceptance remain unverified.
+The app-specific verification files give coverage details. No browser was used;
+desktop control stopped when the user requested it.
+
+
+## Library application addition — October 31, 2026
+
+Added the `library` module for GPUI Notes and GPUI Photos: composable SVG assets,
+toolbar tools, sidebar rows, source/onboarding cards, empty states, badges, and
+headings. Existing component behavior is unchanged. Formatting, the 3 existing
+tests, and strict all-target Clippy pass. Notes adds 16 passing tests; Photos
+adds 12. Both have native debug app bundles and were visually reviewed using
+isolated fictional libraries. Their READMEs and VERIFICATION.md files record
+features, storage semantics, supported formats, tested sizes, and limitations.
+Picacho and the Ironwood workspace pass `cargo check --offline`; only their
+lockfiles changed to record DesertUI's added assets dependency. Their complete
+test suites were not rerun for this addition. The migration results below are
+the earlier baseline, retained for context.
+
 October 30–31, 2026, Apple Silicon macOS, Rust 1.96.0. UI reference audit was
 performed before migration: [UI audit](docs/UI-AUDIT.md).
 
