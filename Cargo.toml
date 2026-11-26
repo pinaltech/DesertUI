@@ -1,25 +1,26 @@
 [package]
 name = "desert-ui"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 description = "Shared native GPUI application components extracted from Picacho and Ironwood"
 license = "MIT"
 
 [dependencies]
-gpui = "=0.2.2"
-gpui-component = "=0.5.1"
-gpui-component-assets = "=0.5.1"
+# GPUI from the gpui-pre snapshots of Zed, as Picacho uses: its platforms are
+# separate crates, and it runs in the browser too (WebGPU). gpui-component
+# 0.9.1 pins gpui-pre =0.3.12.
+gpui = { package = "gpui-pre", version = "=0.3.12", default-features = false }
+gpui-component = "=0.9.1"
+gpui-component-assets = { package = "gpui-kit-assets", version = "=0.9.1" }
 
 [dev-dependencies]
-gpui = { version = "=0.2.2", features = ["test-support"] }
+gpui = { package = "gpui-pre", version = "=0.3.12", features = ["test-support"] }
+gpui-platform = { package = "gpui-pre-platform", version = "=0.3.12", features = ["font-kit", "wayland", "x11", "runtime_shaders"] }
 
 [profile.dev]
 debug = 0
 
 [target.'cfg(target_os = "macos")'.dependencies]
-# Compile the same Metal shaders at runtime; no separate Xcode Metal download.
-gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
-
 cocoa = "0.26"
 objc = "0.2"
 raw-window-handle = "0.6"

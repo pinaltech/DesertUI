@@ -65,9 +65,20 @@ impl AssetSource for LibraryAssets {
             };
             return Ok(Some(Cow::Owned(format!("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>{shape}</svg>").into_bytes())));
         }
+        // In the browser GPUI Component's icons would come from a CDN, which
+        // apps' content security policies refuse; only the shapes above are drawn.
+        #[cfg(target_family = "wasm")]
+        return Ok(None);
+        #[cfg(not(target_family = "wasm"))]
         gpui_component_assets::Assets.load(path)
     }
     fn list(&self, path: &str) -> gpui::Result<Vec<SharedString>> {
+        #[cfg(target_family = "wasm")]
+        return {
+            let _ = path;
+            Ok(vec![])
+        };
+        #[cfg(not(target_family = "wasm"))]
         gpui_component_assets::Assets.list(path)
     }
 }
