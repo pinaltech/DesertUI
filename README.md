@@ -1,7 +1,9 @@
 # DesertUI
 
-A composable native application toolkit on GPUI 0.2.2 and GPUI Component 0.5.1,
-extracted from Picacho and Ironwood. Crate name: `desert-ui`; Rust import:
+A composable application toolkit on GPUI (the `gpui-pre` 0.3.12 snapshot, as
+Picacho uses) and GPUI Component 0.9.1, extracted from Picacho and Ironwood. It
+builds for the desktop and for the browser (`wasm32-unknown-unknown`, where
+GPUI Component's own icons are left out). Crate name: `desert-ui`; Rust import:
 `desert_ui`. Picacho is the reference for shared design decisions.
 
 ## Use from an application
@@ -60,7 +62,7 @@ logos/icons), and wrap the main view in `gpui_component::Root` as usual.
   for transparent 38px titlebars; no-ops on other platforms. Install once when
   creating each native window and sync during rendering to follow resizing.
   Guard the render-time call with `#[cfg(not(test))]` in headless GPUI tests;
-  GPUI 0.2.2's test windows intentionally panic when asked for native handles.
+  GPUI's test windows intentionally panic when asked for native handles.
 
 Components return ordinary GPUI elements, with no global app state. Hosts retain
 listeners, keyboard activation, tooltips, focus groups, dismissal policy, menu
